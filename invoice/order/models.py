@@ -9,4 +9,4 @@ class Order(models.Model):
     TotalAmount = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"Order ID: {self.OrderID} - Customer: {self.customerid_id} - Date: {self.OrderDate}"
+        return f"Customer: {self.customerid_id} - Date: {self.OrderDate}"
