@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+order
+{% endblock %}
+
+
+
+
+
+{% block content %}
+{% load static %}
+<div class="container">
+ <div class="ordercontainer">
+    <div class="addtostcok">
+        <h1 class="text-center">Order</h1>
+        <form>
+            <div class="mb-3">
+                <label for="item" class="form-label">Order Id</label>
+                <input type="text" class="form-control"  name="orderid" placeholder="Enter Item" required>
+            </div>
+            <div class="mb-3">
+                <label for="customerid" class="form-label">Customer Id</label>
+                <select class="form-control" name="customerid" id="customerid" required>
+                    {% for customer in custid %}
+                    <option value="{{ customer.id }}">{{ customer.customer_name}}</option>
+                    {% endfor %}
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="size" class="form-label">Total Amount</label>
+                <input type="text" class="form-control"  name="amount" placeholder="Enter Total Amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+
+ </div>
+      
+
+</div>
+
+{% endblock %}

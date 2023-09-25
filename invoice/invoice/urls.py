@@ -9,5 +9,6 @@ urlpatterns = [
     path('stocks/',include('stocks.urls')),
     path('additem/',include('additem.urls')),
     path('addcustomer/',include('customer.urls')),
+    path('order/',include('order.urls')),
 ]
 
