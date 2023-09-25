@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+customer
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+
+<div class="container mt-3">
+    <form action="" method="post" class="mx-auto">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="item" class="form-label">Customer Name</label>
+            <input type="text" class="form-control" name="customer_name" placeholder="Enter Item" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% for message in messages %}
+    <div class="alert mt-5 {{ message.tags }} alert-dismissible mx-auto" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    <script>
+        setTimeout(function() {
+            document.querySelector(".alert").remove();
+        }, 2000); // 2000 milliseconds (2 seconds)
+    </script>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home Page
+{% endblock %}
+
+
+
+
+
+{% block content %}
+{% load static %}
+
+<div class="addItem">
+   
+    <h1 class="text-center mt-5">Add Item</h1>
+    <div class="container mt-3">
+        <form action="" method="post">
+           {% csrf_token %}
+            <div class="mb-3">
+                <label for="item" class="form-label">Item</label>
+                <input type="text" class="form-control" name="item_name" placeholder="Enter Item" required>
+            </div>
+            <div class="mb-3">
+                <label for="thickness" class="form-label">Thickness</label>
+                <input type="text" class="form-control"  name="thickness" placeholder="Enter Thickness" required>
+            </div>
+            <div class="mb-3">
+                <label for="size" class="form-label">Size</label>
+                <input type="text" class="form-control"  name="size" placeholder="Enter Size" required>
+            </div>
+            <div class="mb-3">
+                <label for="size" class="form-label">Rate</label>
+                <input type="text" class="form-control"  name="rate" placeholder="Enter Rate" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <a href="/additem/items/"  class="btn btn-primary float-end"> Show All Items</a>
+        {% for message in messages %}
+        <div class="alert mt-5 {{ message.tags }} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+ 
+
+  </div>
+
+{% endblock %}

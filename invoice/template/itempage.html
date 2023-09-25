@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home Page
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+<div class="container mt-5">
+  <a href="/additem/"  class="btn btn-primary float-end">add ITem</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Item</th>
+        <th scope="col">Thickness</th>
+        <th scope="col">Size</th>
+        <th scope="col">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for  row in items %}
+      <tr>
+        <th scope="row">{{row.id}}</th>
+        <td>{{row.item_name}}</td>
+        <td>{{row.thickness}}</td>
+        <td>{{row.size}}</td>
+        <td>{{row.rate}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+
+  {% endblock %}

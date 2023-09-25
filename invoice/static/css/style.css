@@ -1,0 +1,28 @@
+
+.buttons{
+    display: flex;
+  flex-direction: column;
+  gap: 20px;
+}.homecontainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.itemaddbtn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.itemaddbtn>button {
+padding: 10px;
+border-radius: 5px;
+border: none;
+background-color: rgb(59, 50, 50);
+color: white;
+font-weight: bold;
+}
+.hy{
+    background-color: black;
+    color: aqua !important;
+}
