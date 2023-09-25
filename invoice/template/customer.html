@@ -13,7 +13,11 @@ customer
         {% csrf_token %}
         <div class="mb-3">
             <label for="item" class="form-label">Customer Name</label>
-            <input type="text" class="form-control" name="customer_name" placeholder="Enter Item" required>
+            <input type="text" class="form-control" name="customer_name" placeholder="Enter Name" required>
+        </div>
+        <div class="mb-3">
+            <label for="item" class="form-label">Customer Number</label>
+            <input type="text" class="form-control" name="customer_number" placeholder="Enter Number" required>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

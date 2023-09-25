@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'stocks',
     'additem',
     'customer',
-    'order',
 ]
 
 MIDDLEWARE = [
