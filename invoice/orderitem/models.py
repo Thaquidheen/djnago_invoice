@@ -13,4 +13,4 @@ class OrderItem(models.Model):
     Amount = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"OrderItem ID: {self.OrderItemID} - Order: {self.OrderID} - Item: {self.ItemID}"
+        return f" Order: {self.Orderid_id} - Item: {self.itemid_id }"
