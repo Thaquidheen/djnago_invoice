@@ -1,8 +1,8 @@
 
 
 from django.db import models
-from ..additem.models import item
-from invoice.order.models import Order
+from additem.models import item
+from order.models import Order
 
 
 class OrderItem(models.Model):
