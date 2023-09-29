@@ -17,6 +17,14 @@ Home Page
     <div class="container mt-3">
         <form action="" method="post">
            {% csrf_token %}
+           <div class="mb-3">
+            <label for="customer" class="form-label">Customer Name</label>
+            <select class="form-select" name="customer" required>
+                {% for customer in customers %}
+                    <option name="customer" value="{{ customer.id }}">{{ customer.customer_name}}</option>
+                    {% endfor %}
+            </select>
+        </div>
             <div class="mb-3">
                 <label for="item" class="form-label">Item</label>
                 <input type="text" class="form-control" name="item_name" placeholder="Enter Item" required>
@@ -36,18 +44,15 @@ Home Page
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <a href="/additem/items/"  class="btn btn-primary float-end"> Show All Items</a>
-        {% for message in messages %}
-        <div class="alert mt-5 {{ message.tags }} alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          {{ message }}
-        </div>
-      {% endfor %}
+        <!-- {% for customer in customers %}
+        <a href="{% url 'items' customer.id %}" class="btn btn-primary float-end">Show Items for {{ customer.customer_name }}</a>
+    {% endfor %} -->
+
     </div>
  
 
   </div>
+
+
 
 {% endblock %}

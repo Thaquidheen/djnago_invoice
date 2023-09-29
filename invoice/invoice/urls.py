@@ -4,11 +4,12 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('webapp.urls')),
+    path('',include('webapp.urls')),
     path('authentication/',include('authentication.urls')),
     path('stocks/',include('stocks.urls')),
     path('additem/',include('additem.urls')),
     path('customer/',include('customer.urls')),
+    path('invoice/',include('bill.urls')),
     # path('order/',include('order.urls')),
 ]
 

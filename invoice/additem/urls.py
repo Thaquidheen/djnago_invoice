@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.addItemform, name='additem'),
-    path('items/', views.itempage, name='items'),
+    path('items/<int:customer_id>/', views.itempage, name='items'),
 ]

@@ -8,7 +8,12 @@ Home Page
 {% block content %}
 {% load static %}
 <div class="container mt-5">
+ 
   <a href="/additem/"  class="btn btn-primary float-end">add ITem</a>
+  {% if customer %}
+  <h2>{{ customer.customer_name }}'s Items</h2>
+  <p>Customer Number: {{ customer.customer_number }}</p>
+  {% endif %}
   <table class="table">
     <thead>
       <tr>
@@ -20,13 +25,13 @@ Home Page
       </tr>
     </thead>
     <tbody>
-      {% for  row in items %}
+      {% for  item in items %}
       <tr>
-        <th scope="row">{{row.id}}</th>
-        <td>{{row.item_name}}</td>
-        <td>{{row.thickness}}</td>
-        <td>{{row.size}}</td>
-        <td>{{row.rate}}</td>
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.item_name}}</td>
+        <td>{{item.thickness}}</td>
+        <td>{{item.size}}</td>
+        <td>{{item.rate}}</td>
       </tr>
       {% endfor %}
     </tbody>
