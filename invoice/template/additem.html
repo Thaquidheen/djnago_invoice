@@ -21,8 +21,8 @@ Home Page
             <label for="customer" class="form-label">Customer Name</label>
             <select class="form-select" name="customer" required>
                 {% for customer in customers %}
-                    <option name="customer" value="{{ customer.id }}">{{ customer.customer_name}}</option>
-                    {% endfor %}
+                <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
+                {% endfor %}
             </select>
         </div>
             <div class="mb-3">
@@ -43,11 +43,6 @@ Home Page
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-
-        <!-- {% for customer in customers %}
-        <a href="{% url 'items' customer.id %}" class="btn btn-primary float-end">Show Items for {{ customer.customer_name }}</a>
-    {% endfor %} -->
-
     </div>
  
 

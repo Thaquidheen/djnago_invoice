@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import AddCustomer
 from django.contrib import messages
-from django.urls import reverse
+
 
 # Create your views here.
 def customer(request):
@@ -11,7 +11,8 @@ def customer(request):
         addCustomerdata= AddCustomer(customer_name=customer_name,customer_number=customer_number)
         addCustomerdata.save()
         messages.success(request,'Item added successfully')
-        return redirect('additem')
+    
+    customers = AddCustomer.objects.all()
 
     
-    return render(request,'customer.html', )
+    return render(request,'customer.html', {'customers': customers} )
