@@ -14,71 +14,89 @@ Invoice Generating
     <h2>Generate Invoice</h2>
     <form method="post" class="mt-4">
         {% csrf_token %}
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label for="customer">Customer Name:</label>
-                <select name="customer" id="customer" class="form-control">
-                    {% for customer in customers %}
-                    <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
-                    {% endfor %}
-                    <!-- Add more customer options here -->
-                </select>
+        <table>
+            <!-- <tr>
+                <td>
+                    <label for="customer">Customer Name:</label>
+                    <select name="customer" id="customer" class="form-control">
+                        {% for customer in customers %}
+                        <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <label for="invoice-date">Invoice Date:</label>
+                    <input type="date" name="invoice-date" id="invoice-date" class="form-control">
+                </td>
+                <td>
+                    <label for="invoice-number">Invoice Number:</label>
+                    <input type="text" name="invoice-number" id="invoice-number" class="form-control">
+                </td>
+            </tr> -->
+            <div class="form-row">
+                <div class="form-group col-md-4 mb-4">
+                    <label for="customer">Customer Name:</label>
+                    <select name="customer" id="customer" class="form-control">
+                        {% for customer in customers %}
+                        <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
+                        {% endfor %}
+                     
+                    </select>
+                </div>
+                <div class="form-group col-md-4 mb-4">
+                    <label for="invoice-date">Invoice Date:</label>
+                    <input type="date" name="invoice-date" id="invoice-date" class="form-control">
+                </div>
+                <div class="form-group col-md-4 mb-4">
+                    <label for="invoice-number">Invoice Number:</label>
+                    <input type="text" name="invoice-number" id="invoice-number" class="form-control">
+                </div>
             </div>
-            <div class="form-group col-md-4">
-                <label for="invoice-date">Invoice Date:</label>
-                <input type="date" name="invoice-date" id="invoice-date" class="form-control">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="invoice-number">Invoice Number:</label>
-                <input type="text" name="invoice-number" id="invoice-number" class="form-control">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label for="item">Item:</label>
-                <select name="item[]" class="form-control">
-                    {% for item in items %}
-                    <option value="{{ item.item_name}}">{{ item.item_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="thickness">Thickness:</label>
-                <select name="thickness[]" class="form-control">
-                    {% for item in items %}
-                    <option value="{{ item.thickness}}">{{ item.thickness }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="size">Size:</label>
-                <select name="size[]" class="form-control">
-                    {% for item in items %}
-                    <option value="{{ item.size }}">{{ item.size }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-2">
-                <label for="quantity">Quantity:</label>
-                <input type="text" name="quantity" class="form-control">
-            </div>
-            <div class="form-group col-md-2">
-                <label for="area">Area:</label>
-                <input type="text" name="area" class="form-control">
-            </div>
-            <div class="form-group col-md-2">
-                <label for="rate">Rate:</label>
-                <input type="text" name="rate" class="form-control">
-            </div>
-            <div class="form-group col-md-2">
-                <label for="amount">Amount:</label>
-                <input type="text" name="amount" class="form-control">
-            </div>
-        </div>
-        <input type="submit" value="Generate Invoice" class="btn btn-primary mt-3">
+            <tr>
+                <td>
+                    <label for="item">Item:</label>
+                    <select name="item[]" class="form-control">
+                        {% for item in items %}
+                        <option value="{{ item.item_name }}">{{ item.item_name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <label for="thickness">Thickness:</label>
+                    <select name="thickness[]" class="form-control">
+                        {% for item in items %}
+                        <option value="{{ item.thickness }}">{{ item.thickness }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <label for="size">Size:</label>
+                    <select name="size[]" class="form-control">
+                        {% for item in items %}
+                        <option value="{{ item.size }}">{{ item.size }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <label for="quantity">Quantity:</label>
+                    <input type="text" name="quantity" class="form-control">
+                </td>
+                <td>
+                    <label for="area">Area:</label>
+                    <input type="text" name="area" class="form-control">
+                </td>
+                <td>
+                    <label for="rate">Rate:</label>
+                    <input type="text" name="rate" class="form-control">
+                </td>
+                <td>
+                    <label for="amount">Amount:</label>
+                    <input type="text" name="amount" class="form-control">
+                </td>
+            </tr>
+        </table>
     </form>
+    
 </div>
     
  
