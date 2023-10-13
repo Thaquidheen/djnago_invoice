@@ -18,8 +18,9 @@ Invoice Generating
             <div class="form-group col-md-4">
                 <label for="customer">Customer Name:</label>
                 <select name="customer" id="customer" class="form-control">
-                    <option value="customer1">Customer 1</option>
-                    <option value="customer2">Customer 2</option>
+                    {% for customer in customers %}
+                    <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
+                    {% endfor %}
                     <!-- Add more customer options here -->
                 </select>
             </div>
@@ -36,48 +37,45 @@ Invoice Generating
             <div class="form-group col-md-4">
                 <label for="item">Item:</label>
                 <select name="item[]" class="form-control">
-                    <option value="item1">item 1</option>
-                    <option value="item2">item 2</option>
-                    <option value="item3">item 3</option>
-                    <!-- Add more item options here -->
+                    {% for item in items %}
+                    <option value="{{ item.item_name}}">{{ item.item_name }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-4">
                 <label for="thickness">Thickness:</label>
                 <select name="thickness[]" class="form-control">
-                    <option value="thickness1">Thickness 1</option>
-                    <option value="thickness2">Thickness 2</option>
-                    <option value="thickness3">Thickness 3</option>
-                    <!-- Add more thickness options here -->
+                    {% for item in items %}
+                    <option value="{{ item.thickness}}">{{ item.thickness }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-4">
                 <label for="size">Size:</label>
                 <select name="size[]" class="form-control">
-                    <option value="size1">Size 1</option>
-                    <option value="size2">Size 2</option>
-                    <option value="size3">Size 3</option>
-                    <!-- Add more size options here -->
+                    {% for item in items %}
+                    <option value="{{ item.size }}">{{ item.size }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-2">
                 <label for="quantity">Quantity:</label>
-                <input type="text" name="quantity[]" class="form-control">
+                <input type="text" name="quantity" class="form-control">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="area">Area:</label>
+                <input type="text" name="area" class="form-control">
             </div>
             <div class="form-group col-md-2">
                 <label for="rate">Rate:</label>
-                <input type="text" name="rate[]" class="form-control">
+                <input type="text" name="rate" class="form-control">
             </div>
             <div class="form-group col-md-2">
                 <label for="amount">Amount:</label>
-                <input type="text" name="amount[]" class="form-control">
+                <input type="text" name="amount" class="form-control">
             </div>
-            <!-- Add more fields as needed -->
-        </div>
-        <div class="total-amount">
-            Total Amount: $<span id="total-amount">0.00</span>
         </div>
         <input type="submit" value="Generate Invoice" class="btn btn-primary mt-3">
     </form>
