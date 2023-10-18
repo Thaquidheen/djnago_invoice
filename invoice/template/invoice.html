@@ -107,8 +107,7 @@ Invoice Generating
   
 
 
-    
-// -------------------------------------------------------------------------------------------------------------------------
+
     function populateItems() {
         $.ajax({
             url: '/invoice/get_items/',
@@ -121,7 +120,7 @@ Invoice Generating
                 itemSelect.append(defaultOption);
                 $.each(data.items, function(index, item) {
                     var option = $('<option value="' + item.id + '">' + item.item_name + ' </option>');
-                    option.data('variations', item.variations); // Store variations data in the option
+                    option.data('variations', item.variations); 
                     itemSelect.append(option);
                 });
             },
@@ -131,15 +130,15 @@ Invoice Generating
         });
     }
 
-    // Call the function to populate the "Item" select element
+
     populateItems();
 
-    // Attach an event listener to the "Item" select element
+
     $('#item').on('change', function() {
         var selectedOption = $(this).find('option:selected');
         var variations = selectedOption.data('variations');
         
-        // Populate the "Thickness," "Size," and "Rate" select elements
+
         var thicknessSelect = $('#thickness');
         var sizeSelect = $('#size');
         var rateSelect = $('#rate');
@@ -154,7 +153,7 @@ Invoice Generating
             rateSelect.append('<option value="' + variation.rate + '">' + variation.rate + '</option>');
         });
         
-        // Update other fields as needed
+ 
         updateFields();
     });
 
