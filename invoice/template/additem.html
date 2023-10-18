@@ -11,7 +11,7 @@ Home Page
 {% block content %}
 {% load static %}
 
-<div class="addItem">
+<!-- <div class="addItem">
    
     <h1 class="text-center mt-5">Add Item</h1>
     <div class="container mt-3">
@@ -46,8 +46,70 @@ Home Page
     </div>
  
 
-  </div>
+  </div> -->
 
+  <div class="addItem">
+    <h1 class="text-center mt-5">Add Item</h1>
+    <div class="container mt-3">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="customer" class="form-label">Customer Name</label>
+                <select class="form-select" name="customer" required>
+                    {% for customer in customers %}
+                        <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="item_name" class="form-label">Item Name</label>
+                <input type="text" class="form-control" name="item_name" placeholder="Enter Item Name" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="thickness" class="form-label">Thickness</label>
+                <input type="text" class="form-control" name="thickness" placeholder="Enter Thickness" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="size" class="form-label">Size</label>
+                <input type="text" class="form-control" name="size" placeholder="Enter Size" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="rate" class="form-label">Rate</label>
+                <input type="text" class="form-control" name="rate" placeholder="Enter Rate" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <!-- <form action="" method="post">
+            {% csrf_token %}
+            
+   
+            <label for="customer_name">Customer Name:</label>
+            <input type="text" id="customer_name" name="customer_name"required><br><br>
+
+            <label for="item_name">Item Name:</label>
+            <input type="text" id="item_name" name="item_name" required><br><br>
+    
+
+            <label for="size">Size:</label>
+            <input type="text" id="size" name="size_value"><br><br>
+
+            <label for="rate">Rate:</label>
+            <input type="text" id="rate" name="rate_value"><br><br>
+    
+
+            <label for="thickness">Thickness:</label>
+            <input type="text" id="thickness" name="thickness_value"><br><br>
+    
+            <button type="submit">Submit</button>
+        </form> -->
+    </div>
+</div>
 
 
 {% endblock %}
