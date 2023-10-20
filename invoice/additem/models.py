@@ -54,8 +54,8 @@ class FractionField(models.Field):
     def get_db_prep_save(self, value, connection):
         return float(value)
 class Item(models.Model):
-    item_name = models.CharField(max_length=255)  # The item name
-    customer_name = models.ForeignKey(AddCustomer, on_delete=models.CASCADE)
+    item_name = models.CharField(max_length=255) 
+    
     def __str__(self):
         return self.item_name
 

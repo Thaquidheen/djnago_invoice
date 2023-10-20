@@ -15,6 +15,7 @@ Invoice Generating
 
     <form method="post">
         {% csrf_token %}
+       
         <table>
 
             <div class="form-row">
@@ -36,56 +37,43 @@ Invoice Generating
                     <input type="text" name="invoice-number" id="invoice-number" class="form-control">
                 </div>
             </div>
+            <div class="mt-5" style="text-align: right;">
+                <button class="bg-success  bg-variant rounded" id="add-item">+</button>
+            </div>
             <tbody id="items-container">
-        <tr class="item-row">
-         
-
-    
-            <td>
-                <label for="item">Item:</label>
-           
-                <select name="item" id="item" class="form-control">
-                   
-                </select>
-            </td>
-            <td>
-                <label for="thickness">Thickness:</label>
-           
-            
-                </select> 
-                <select name="thickness" id="thickness" class="form-control">
-     
-                </select>
-            </td>
-            <td>
-                <label for="size">Size:</label>
-                <select name="size" id="size" class="form-control">
-           
-                </select>
-            </td>
-            <td>
-                <label for="quantity">Quantity:</label>
-                <input type="number" name="quantity" id="quantity" class="form-control">
-       
-            </td>
-       
-            <td>
-                <label for="area">Area:</label>
-                <input type="number" name="area" id="area" class="form-control">
-      
-            </td>
-            <td>
-                <label for="rate">Rate:</label>
-                <select name="rate" id="rate" class="form-control" readonly>
-       
-                </select>
-            </td>
-            <td>
-                <label for="amount">Amount:</label>
-                <input type="text" id="amount" name="amount" class="form-control">
-            </td>
-          
-        </tr>
+    <tr class="item-row">
+    <td>
+        <label for="item">Item:</label>
+        <select name="item" id="item" class="form-control"></select>
+    </td>
+    <td>
+        <label for="thickness">Thickness:</label>
+        <select name="thickness" id="thickness" class="form-control"></select>
+    </td>
+    <td>
+        <label for="size">Size:</label>
+        <select name="size" id="size" class="form-control"></select>
+    </td>
+    <td>
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" class="form-control">
+    </td>
+    <td>
+        <label for="area">Area:</label>
+        <input type="number" name="area" id="area" class="form-control">
+    </td>
+    <td>
+        <label for="rate">Rate:</label>
+        <select name="rate" id="rate" class="form-control" readonly></select>
+    </td>
+    <td>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" class="form-control">
+    </td>
+    <td>
+        <button class="btn btn-danger btn-sm delete-row " style="margin-top: 1.3rem;">Delete</button>
+    </td>
+</tr>
   
     </tbody>
     </table>
@@ -97,7 +85,7 @@ Invoice Generating
     </div>
  
     <div class="mt-5 " style="text-align: right;">
-        <button class="bg-success p-2 bg-variant">invoice</button>
+        <button class="bg-success p-2 bg-variant">Generate Invoice</button>
     </div>
 </div>
 
@@ -154,7 +142,7 @@ Invoice Generating
         });
         
  
-        updateFields();
+        updateFields($(this).closest('.item-row'));
     });
 
 
@@ -180,31 +168,142 @@ Invoice Generating
 
 
     function updateFields() {
-        var quantity = parseFloat($('#quantity').val());
-        var size = $('#size').val();
-        var rate = parseFloat($('#rate').val());
-        console.log('Quantity:', quantity);
-        console.log('Size:', size);
-        console.log('Rate:', rate);
+        var quantity = parseFloat(row.find('input#quantity').val());
+    var size = row.find('select#size').val();
+    var rate = parseFloat(row.find('select#rate').val());
 
-        var sizeFraction = parseFraction(size);
-        console.log(sizeFraction)
-        var area = (quantity * sizeFraction.numerator) / sizeFraction.denominator;
-        console.log(area)
-        var amount = area * rate;
-        console.log(amount)
-        var formattedArea = area.toFixed(2);
-        $('#area').val(formattedArea);
-        $('#amount').val(amount.toFixed(2)); 
+    var sizeFraction = parseFraction(size);
+    var area = (quantity * sizeFraction.numerator) / sizeFraction.denominator;
+    var formattedArea = area.toFixed(2);
+    row.find('input#area').val(formattedArea);
+    row.find('input#amount').val((area * rate).toFixed(2));
     }
 
 
 
 
-$('#quantity, #size, #rate').on('input', updateFields);
+    $('#quantity, #size, #rate').on('input', function() {
+    var row = $(this).closest('.item-row');
+    updateFields(row);
+});
 
-   
+function deleteRow(row) {
+    row.remove();
+    updateFields(); // Update fields after deleting
+}
 
+// Attach a click event listener to the delete button
+$('#items-container').on('click', '.delete-row', function () {
+    var row = $(this).closest('.item-row');
+    deleteRow(row);
+});
+//    duplicate row function---------------------------------------------------------------------------------
+
+
+function addItemRow() {
+        var itemRowTemplate = $('#items-container .item-row:first').clone();
+        itemRowTemplate.find('input, select').val(''); 
+        $('#items-container').append(itemRowTemplate);
+
+
+        itemRowTemplate.find('select#item').on('change', function() {
+            var row = $(this).closest('.item-row');
+            var selectedOption = $(this).find('option:selected');
+            var variations = selectedOption.data('variations');
+            var thicknessSelect = row.find('select#thickness');
+            var sizeSelect = row.find('select#size');
+            var rateSelect = row.find('select#rate');
+
+            thicknessSelect.empty();
+            sizeSelect.empty();
+            rateSelect.empty();
+
+            $.each(variations, function(index, variation) {
+                thicknessSelect.append('<option value="' + variation.thickness + '">' + variation.thickness + '</option>');
+                sizeSelect.append('<option value="' + variation.size + '">' + variation.size + '</option>');
+                rateSelect.append('<option value="' + variation.rate + '">' + variation.rate + '</option>');
+            });
+
+        
+            updateFields(row);
+        });
+
+        itemRowTemplate.find('input, select').on('input', function() {
+            var row = $(this).closest('.item-row');
+            updateFields(row);
+        });
+        
+ 
+        populateItemsForRow(itemRowTemplate);
+    }
+
+    $('#add-item').on('click', function(event) {
+        event.preventDefault();
+        addItemRow();
+    });
+
+
+    function parseFraction(input) {
+        if (input) {
+            const parts = input.split('/');
+            if (parts.length === 2) {
+                const numerator = parseFloat(parts[0]);
+                const denominator = parseFloat(parts[1]);
+
+                if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                    return {
+                        numerator: numerator,
+                        denominator: denominator
+                    };
+                }
+            }
+        }
+
+        return {
+            numerator: 0,
+            denominator: 1
+        };
+    }
+
+
+    function updateFields(row) {
+        var quantity = parseFloat(row.find('input#quantity').val());
+        var size = row.find('select#size').val();
+        var rate = parseFloat(row.find('select#rate').val());
+
+        var sizeFraction = parseFraction(size);
+        var area = (quantity * sizeFraction.numerator) / sizeFraction.denominator;
+        var formattedArea = area.toFixed(2);
+        row.find('input#area').val(formattedArea);
+        row.find('input#amount').val((area * rate).toFixed(2));
+    }
+
+
+    function populateItemsForRow(row) {
+        $.ajax({
+            url: '/invoice/get_items/',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                var itemSelect = row.find('select#item');
+                itemSelect.empty();
+                var defaultOption = $('<option value="">Select an item</option>').attr('selected', 'selected');
+                itemSelect.append(defaultOption);
+                $.each(data.items, function(index, item) {
+                    var option = $('<option value="' + item.id + '">' + item.item_name + ' </option>');
+                    option.data('variations', item.variations); 
+                    itemSelect.append(option);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+
+    populateItemsForRow($('#items-container .item-row:first'));
+// --------------------------------------------------------------------------------------
 });
 
 </script>
