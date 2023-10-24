@@ -73,27 +73,35 @@ Invoice Generating
     <td>
         <button class="btn btn-danger btn-sm delete-row " style="margin-top: 1.3rem;">Delete</button>
     </td>
+ 
 </tr>
   
     </tbody>
     </table>
-    </form>
-
-    <div class="mt-5" style="text-align: right;">
-       
- 
-    </div>
- 
     <div class="mt-5 " style="text-align: right;">
         <button class="bg-success p-2 bg-variant">Generate Invoice</button>
     </div>
+    <input type="hidden" name="item-count" id="item-count" value="1">
+
+    </form>
+
+  
 </div>
 
 
 <script>
+
+
+
+
     $(document).ready(function() {
   
-
+        function addItemRow() {
+    // ...
+    var itemCount = parseInt($('#item-count').val()) || 0;
+    itemCount++;
+    $('#item-count').val(itemCount);
+}
 
 
     function populateItems() {
@@ -304,6 +312,10 @@ function addItemRow() {
 
     populateItemsForRow($('#items-container .item-row:first'));
 // --------------------------------------------------------------------------------------
+
+
+
+
 });
 
 </script>

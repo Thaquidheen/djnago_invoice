@@ -1,33 +1,7 @@
 from django.db import models
 from fractions import Fraction
 from customer.models import AddCustomer
-# class Item(models.Model):
-#     item_name = models.CharField(max_length=255)
-#     customer_name = models.ForeignKey(AddCustomer, on_delete=models.CASCADE)
 
-#     def __str__(self):
-#         return self.item_name
-
-# class Size(models.Model):
-#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-#     size_value = models.CharField(max_length=255)
-
-#     def __str__(self):
-#         return f"{self.item.item_name} - {self.size_value}"
-
-# class Rate(models.Model):
-#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-#     rate_value = models.DecimalField(max_digits=10, decimal_places=2)
-
-#     def __str__(self):
-#         return f"{self.item.item_name} - ${self.rate_value}"
-
-# class Thickness(models.Model):
-#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-#     thickness_value = models.CharField(max_length=255)
-
-#     def __str__(self):
-#         return f"{self.item.item_name} - {self.thickness_value}"
 class FractionField(models.Field):
     description = "A field for storing fractions"
 
