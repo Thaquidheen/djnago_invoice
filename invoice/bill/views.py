@@ -3,45 +3,54 @@ from django.http import JsonResponse
 from .models import  InvoiceItem
 from customer.models import AddCustomer
 from additem.models import *
-# Create your views here.
+from django.shortcuts import get_object_or_404
+from django.forms import modelformset_factory
+from decimal import Decimal 
+
+
 def generateInvoice(request):
+
     customers = AddCustomer.objects.all()
-    
-    try:
-        if request.method == 'POST':
-            customer = request.POST['customer']
-            invoice_date = request.POST['invoice-date']
-            invoice_number = request.POST['invoice-number']
-            items = []
+    if request.method == 'POST':
+            customer_name = request.POST.get('customer')
+            invoice_date = request.POST.get('invoice-date')
+            invoice_number = request.POST.get('invoice-number')
+            item_id = request.POST.get('item')
+            thickness = Decimal(request.POST.get('thickness'))
+            size = request.POST.get('size')
+            quantity = Decimal(request.POST.get('quantity'))
+            area = Decimal(request.POST.get('area'))
+            rate = Decimal(request.POST.get('rate'))
+            amount = Decimal(request.POST.get('amount'))
 
-            for i in range(1, int(request.POST['item-count']) + 1):
-                item_id = request.POST.get(f'item-{i}')
-                thickness = request.POST.get(f'thickness-{i}')
-                size = request.POST.get(f'size-{i}')
-                quantity = request.POST.get(f'quantity-{i}')
-                area = request.POST.get(f'area-{i}')
-                rate = request.POST.get(f'rate-{i}')
-                amount = request.POST.get(f'amount-{i}')
 
-                items.append(InvoiceItem(
-                    customer=customer,
-                    invoice_date=invoice_date,
-                    invoice_number=invoice_number,
-                    item_id=item_id,
-                    thickness=thickness,
-                    size=size,
-                    quantity=quantity,
-                    area=area,
-                    rate=rate,
-                    amount=amount,
-                ))
+        # Create an instance of your model
+            customer = AddCustomer.objects.get(customer_name=customer_name)
+            item = Item.objects.get(pk=item_id)
 
-            InvoiceItem.objects.bulk_create(items)
-      
-    except KeyError as e:
-        print(f"Error: {e}")
-    
+
+       
+            invoice_item = InvoiceItem(
+                customer=customer,
+                invoice_date=invoice_date,
+                invoice_number=invoice_number,
+                item=item,
+                thickness=thickness,
+                size=size,
+                quantity=quantity,
+                area=area,
+                rate=rate,
+                amount=amount
+            )
+            invoice_item.save()
+
     return render(request, 'invoice.html', {'customers': customers})
+
+
+
+
+
+
 
 
 def get_items(request):

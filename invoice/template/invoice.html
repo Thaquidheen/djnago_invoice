@@ -48,11 +48,11 @@ Invoice Generating
     </td>
     <td>
         <label for="thickness">Thickness:</label>
-        <select name="thickness" id="thickness" class="form-control"></select>
+        <select name="thickness" id="thickness" class="form-control" ></select>
     </td>
     <td>
         <label for="size">Size:</label>
-        <select name="size" id="size" class="form-control"></select>
+        <select name="size" id="size" class="form-control"  ></select>
     </td>
     <td>
         <label for="quantity">Quantity:</label>
@@ -93,15 +93,9 @@ Invoice Generating
 
 
 
-
     $(document).ready(function() {
   
-        function addItemRow() {
-    // ...
-    var itemCount = parseInt($('#item-count').val()) || 0;
-    itemCount++;
-    $('#item-count').val(itemCount);
-}
+
 
 
     function populateItems() {
