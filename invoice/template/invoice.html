@@ -44,31 +44,31 @@ Invoice Generating
     <tr class="item-row">
     <td>
         <label for="item">Item:</label>
-        <select name="item" id="item" class="form-control"></select>
+        <select name="item-1" id="item" class="form-control"></select>
     </td>
     <td>
         <label for="thickness">Thickness:</label>
-        <select name="thickness" id="thickness" class="form-control" ></select>
+        <select name="thickness-1" id="thickness" class="form-control" ></select>
     </td>
     <td>
         <label for="size">Size:</label>
-        <select name="size" id="size" class="form-control"  ></select>
+        <select name="size-1" id="size" class="form-control"  ></select>
     </td>
     <td>
         <label for="quantity">Quantity:</label>
-        <input type="number" name="quantity" id="quantity" class="form-control">
+        <input type="number" name="quantity-1" id="quantity" class="form-control">
     </td>
     <td>
         <label for="area">Area:</label>
-        <input type="number" name="area" id="area" class="form-control">
+        <input type="number" name="area-1" id="area" class="form-control">
     </td>
     <td>
         <label for="rate">Rate:</label>
-        <select name="rate" id="rate" class="form-control" readonly></select>
+        <select name="rate-1" id="rate" class="form-control" readonly></select>
     </td>
     <td>
         <label for="amount">Amount:</label>
-        <input type="text" id="amount" name="amount" class="form-control">
+        <input type="text" id="amount" name="amount-1" class="form-control">
     </td>
     <td>
         <button class="btn btn-danger btn-sm delete-row " style="margin-top: 1.3rem;">Delete</button>
@@ -311,7 +311,42 @@ function addItemRow() {
 
 });
 
+$('#your-submit-button').on('click', function(event) {
+    event.preventDefault();
 
+    var formData = [];
+    $('.item-row').each(function(index, row) {
+        var itemData = {
+            item: $(row).find('select[name^="item-"]').val(),
+            thickness: $(row).find('select[name^="thickness-"]').val(),
+            size: $(row).find('select[name^="size-"]').val(),
+            quantity: $(row).find('input[name^="quantity-"]').val(),
+            area: $(row).find('input[name^="area-"]').val(),
+            rate: $(row).find('select[name^="rate-"]').val(),
+            amount: $(row).find('input[name^="amount-"]').val()
+        };
+
+        formData.push(itemData);
+    });
+
+    // Send formData in a POST request to your view
+    $.ajax({
+        url: '/your_view_url/',
+        method: 'POST',
+        data: {
+            customer: $('#customer').val(),
+            invoiceDate: $('#invoice-date').val(),
+            invoiceNumber: $('#invoice-number').val(),
+            items: JSON.stringify(formData)
+        },
+        success: function(response) {
+            // Handle the response as needed
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+});
 
 
 </script>

@@ -12,24 +12,26 @@ def generateInvoice(request):
 
     customers = AddCustomer.objects.all()
     if request.method == 'POST':
-        customer_name = request.POST.get('customer')
-        invoice_date = request.POST.get('invoice-date')
-        invoice_number = request.POST.get('invoice-number')
         item_count = int(request.POST.get('item-count'))
-
-
         for i in range(1, item_count + 1):
-            item_id = request.POST.get('item')
-            thickness = Decimal(request.POST.get('thickness'))
-            size = request.POST.get('size')
-            quantity = Decimal(request.POST.get('quantity'))
-            area = Decimal(request.POST.get('area'))
-            rate = Decimal(request.POST.get('rate'))
-            amount = Decimal(request.POST.get('amount'))
+            customer_name = request.POST.get('customer')
+            invoice_date = request.POST.get('invoice-date')
+            invoice_number = request.POST.get('invoice-number')
+            item_id = request.POST.get(f'item-{i}')
+            thickness = Decimal(request.POST.get(f'thickness-{i}'))
+            size = request.POST.get(f'size-{i}')
+            quantity = Decimal(request.POST.get(f'quantity-{i}'))
+            area = Decimal(request.POST.get(f'area-{i}'))
+            rate = Decimal(request.POST.get(f'rate-{i}'))
+            amount = Decimal(request.POST.get(f'amount-{i}'))
+
+            print(f'Customer Name: {customer_name}')
+            print(f'Invoice Date: {invoice_date}')
+            print(f'Invoice Number: {invoice_number}')
 
             customer = AddCustomer.objects.get(customer_name=customer_name)
             item = Item.objects.get(pk=item_id)
-
+            
 
        
             invoice_item = InvoiceItem(
