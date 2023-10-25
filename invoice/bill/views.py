@@ -12,9 +12,13 @@ def generateInvoice(request):
 
     customers = AddCustomer.objects.all()
     if request.method == 'POST':
-            customer_name = request.POST.get('customer')
-            invoice_date = request.POST.get('invoice-date')
-            invoice_number = request.POST.get('invoice-number')
+        customer_name = request.POST.get('customer')
+        invoice_date = request.POST.get('invoice-date')
+        invoice_number = request.POST.get('invoice-number')
+        item_count = int(request.POST.get('item-count'))
+
+
+        for i in range(1, item_count + 1):
             item_id = request.POST.get('item')
             thickness = Decimal(request.POST.get('thickness'))
             size = request.POST.get('size')
@@ -23,8 +27,6 @@ def generateInvoice(request):
             rate = Decimal(request.POST.get('rate'))
             amount = Decimal(request.POST.get('amount'))
 
-
-        # Create an instance of your model
             customer = AddCustomer.objects.get(customer_name=customer_name)
             item = Item.objects.get(pk=item_id)
 
@@ -41,7 +43,7 @@ def generateInvoice(request):
                 area=area,
                 rate=rate,
                 amount=amount
-            )
+             )
             invoice_item.save()
 
     return render(request, 'invoice.html', {'customers': customers})
