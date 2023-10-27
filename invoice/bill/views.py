@@ -9,49 +9,47 @@ from decimal import Decimal
 
 
 def generateInvoice(request):
-
     customers = AddCustomer.objects.all()
+    
     if request.method == 'POST':
         item_count = int(request.POST.get('item-count'))
+        
         for i in range(1, item_count + 1):
             customer_name = request.POST.get('customer')
             invoice_date = request.POST.get('invoice-date')
             invoice_number = request.POST.get('invoice-number')
-            item_id = request.POST.get(f'item-{i}')
+            items = request.POST.getlist(f'item-{i}')  
             thickness = Decimal(request.POST.get(f'thickness-{i}'))
-            size = request.POST.get(f'size-{i}')
-            quantity = Decimal(request.POST.get(f'quantity-{i}'))
-            area = Decimal(request.POST.get(f'area-{i}'))
-            rate = Decimal(request.POST.get(f'rate-{i}'))
-            amount = Decimal(request.POST.get(f'amount-{i}'))
-
-            print(f'Customer Name: {customer_name}')
-            print(f'Invoice Date: {invoice_date}')
-            print(f'Invoice Number: {invoice_number}')
-
-            customer = AddCustomer.objects.get(customer_name=customer_name)
-            item = Item.objects.get(pk=item_id)
+            sizes = request.POST.getlist(f'size-{i}')
+            quantities = request.POST.getlist(f'quantity-{i}')
+            areas = request.POST.getlist(f'area-{i}')
+            rates = request.POST.getlist(f'rate-{i}')
+            amounts = request.POST.getlist(f'amount-{i}')
             
-
-       
-            invoice_item = InvoiceItem(
-                customer=customer,
-                invoice_date=invoice_date,
-                invoice_number=invoice_number,
-                item=item,
-                thickness=thickness,
-                size=size,
-                quantity=quantity,
-                area=area,
-                rate=rate,
-                amount=amount
-             )
-            invoice_item.save()
+            customer = AddCustomer.objects.get(customer_name=customer_name)
+            
+ 
+            for item, size, quantity, area, rate, amount in zip(items, sizes, quantities, areas, rates, amounts):
+                item = Item.objects.get(pk=item)
+                invoice_item = InvoiceItem(
+                    customer=customer,
+                    invoice_date=invoice_date,
+                    invoice_number=invoice_number,
+                    item=item,
+                    thickness=thickness,
+                    size=size,
+                    quantity=Decimal(quantity),
+                    area=Decimal(area),
+                    rate=Decimal(rate),
+                    amount=Decimal(amount)
+                )
+                invoice_item.save()
+                print(f'Customer Name: {customer_name}')
+                print(f'Invoice Date: {invoice_date}')
+                print(f'Invoice Number: {invoice_number}')
+                print(f'Items: {items}')
 
     return render(request, 'invoice.html', {'customers': customers})
-
-
-
 
 
 
