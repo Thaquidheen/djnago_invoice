@@ -9,7 +9,8 @@ urlpatterns = [
     path('additem/',include('additem.urls')),
     path('customer/',include('customer.urls')),
     path('stock/',include('stock.urls')),
-     path('invoice/',include('bill.urls')),
+    path('invoice/',include('bill.urls')),
+    path('report/',include('report.urls')),
     
 ]
 

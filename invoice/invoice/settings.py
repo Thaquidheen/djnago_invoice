@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'order',
     'orderitem',
     'bill',
+    'report',
 
 
 ]

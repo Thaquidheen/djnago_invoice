@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home Page
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+
+
+
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+    }
+    h1 {
+        color: #333;
+    }
+    label {
+        display: block;
+        margin: 10px 0;
+    }
+    select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+</style>
+
+
+
+<!-- <label for="customer-options">Select Customer:</label>
+    <select id="customer-options">
+        {% for customer in customers %}
+        <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="date-range">Select Date Range:</label>
+    <input type="text" name="datetimes" /> -->
+    <form action="{% url 'report' %}" method="GET">
+        <label for="customer-options">Select Customer:</label>
+        <select name="customer_name" id="customer-options">
+            {% for customer in customers %}
+                <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
+            {% endfor %}
+        </select>
+    
+        <label for="start-date">Start Date:</label>
+        <input type="date" name="start_date" id="start-date">
+    
+        <label for="end-date">End Date:</label>
+        <input type="date" name="end_date" id="end-date">
+    
+        <button type="submit">Show Order Details</button>
+    </form>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Size</th>
+                <th>Thickness</th>
+                <th>Rate</th>
+                <th>Quantity</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in date_range_items %}
+                <tr>
+                    <td>{{ item.item }}</td>
+                    <td>{{ item.size }}</td>
+                    <td>{{ item.thickness }}</td>
+                    <td>{{ item.rate }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.amount }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No orders found for the selected customer and date range.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        $(function() {
+          $('input[name="datetimes"]').daterangepicker({
+            timePicker: true,
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour').add(32, 'hour'),
+            locale: {
+              format: 'M/DD hh:mm A'
+            }
+          });
+        });
+        </script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+{% endblock %}
