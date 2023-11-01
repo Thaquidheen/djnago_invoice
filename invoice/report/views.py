@@ -5,12 +5,12 @@ from bill.models import InvoiceItem
 def report(request):
     customers = AddCustomer.objects.all()
 
-    # Get customer_name, start_date, and end_date from the GET request
+
     customer_name = request.GET.get('customer_name')
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')   
 
-    # Filter InvoiceItems based on customer_name and date range
+
     customer_items = InvoiceItem.objects.filter(customer__customer_name=customer_name)
     date_range_items = InvoiceItem.objects.filter(invoice_date__range=(start_date, end_date))
     
