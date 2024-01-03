@@ -10,17 +10,29 @@ Home Page
 
 {% block content %}
 {% load static %}
-<div class="container">
- <div class="homecontainer">
-    <div class="buttons">
-        <a  href="{% url 'invoicegenerate' %}" class="btn btn-primary">Generate Invoice</a>
-        <a href="{% url 'additem' %}" class="btn btn-primary">Stock</a>
-        <a href="{% url 'addcustomer' %}" class="btn btn-primary">Add Customer</a>
-        <a href="{% url 'report' %}" class="btn btn-primary">Reports</a>
-    </div>
- </div>
+<style>
+    .home {
+        background-image: url('https://cdn5.vectorstock.com/i/1000x1000/70/44/industrial-factory-background-vector-2227044.jpg');
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
       
-
+    }
+</style>
+<div class="home">
+    <div class="container">
+        <div class="homecontainer">
+            <div style="padding: 20px;background-color: white;border-radius: 5px;">
+                <div class="buttons">
+                    <a  href="{% url 'invoicegenerate' %}" class="btn btn-primary">Generate Invoice</a>
+                    <a href="{% url 'additem' %}" class="btn btn-primary">Stock</a>
+                    <a href="{% url 'addcustomer' %}" class="btn btn-primary">Add Customer</a>
+                    <a href="{% url 'report' %}" class="btn btn-primary">Reports</a>
+                </div>
+            </div>
+        </div>
+       </div>
 </div>
+
 
 {% endblock %}
