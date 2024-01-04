@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from customer.models import AddCustomer
+from django.contrib.auth.decorators import login_required
 from bill.models import InvoiceItem
 # Create your views here.
+
+
+@login_required
 def report(request):
     customers = AddCustomer.objects.all()
 

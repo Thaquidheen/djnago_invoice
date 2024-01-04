@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+
+
+{% block title %}
+Forget password
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <form style="width: 300px;">
+        <h2>Forget Password</h2><br>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control form-control-lg" id="name" placeholder="Enter your email">
+        </div>
+   
+        <!-- <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+        </div> -->
+        <div>
+            <small>Login to my account <a href="{% url 'login' %}" >Login</a></small>
+        </div><br>
+
+        <button type="submit" class="btn btn-primary btn-sm">Forget password</button>
+    </form>
+</div>
+
+{% endblock %}

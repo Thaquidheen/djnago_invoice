@@ -1,21 +1,34 @@
 {% extends "layout.html" %}
 
+
+
 {% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+{% load static %}
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <form style="width: 300px;">
+    <form action=""  method="post"  style="width: 300px;">
+        {% csrf_token %}
         <div class="mb-3">
             <label class="form-label">Username</label>
-            <input type="text" class="form-control form-control-lg" placeholder="Enter your username">
+            <input type="text" name="username" id="username" class="form-control form-control-lg" placeholder="Enter your username">
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control form-control-lg" id="exampleInputPassword1">
+            <input type="password" name="password" id="password" class="form-control form-control-lg" placeholder="Enter your password">
         </div>
-        <div class="mb-3 form-check">
+        <!-- <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Remember me</label>
-        </div>
-        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </div> -->
+        <!-- <div>
+            <small>Forget My <a href="{% url 'forget' %}" >Password</a></small>
+        </div><br> -->
+
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        <!-- <small>Don't have an account <a href="">Register Now</a> </small> -->
     </form>
 </div>
 

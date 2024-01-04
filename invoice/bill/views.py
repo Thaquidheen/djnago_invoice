@@ -6,8 +6,9 @@ from additem.models import *
 from django.shortcuts import get_object_or_404
 from django.forms import modelformset_factory
 from decimal import Decimal 
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def generateInvoice(request):
     customers = AddCustomer.objects.all()
     

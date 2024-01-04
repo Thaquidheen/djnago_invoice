@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import AddCustomer
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def customer(request):
     if request.method == 'POST':
         customer_name=request.POST.get('customer_name')

@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 
 from .models import *
 from customer.models import AddCustomer
-
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -35,6 +35,7 @@ from customer.models import AddCustomer
     
         
 #     return render(request,'additem.html')
+@login_required
 def additem(request):
     if request.method == 'POST':
 

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+
+
+{% block title %}
+Registration
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <form action=""  method="post" width: 300px;">
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control form-control-lg" placeholder="Enter your username">
+        </div>
+      
+        <!-- <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+        </div> -->
+        <div>
+            <small>Login to my account <a href="{% url 'login' %}" >Login</a></small>
+        </div><br>
+
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        <small>Don't have an account <a href="">Register Now</a> </small>
+    </form>
+</div>
+
+{% endblock %}
