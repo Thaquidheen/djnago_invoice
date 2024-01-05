@@ -10,6 +10,12 @@ Invoice Generating
 
 {% block content %}
 {% load static %}
+
+<style>
+    #item-count {
+        display: none;
+    }
+</style>
 <div class="container">
     <h2>Generate Invoice</h2>
 
@@ -81,7 +87,7 @@ Invoice Generating
     <div class="mt-5 " style="text-align: right;">
         <button class="bg-success p-2 bg-variant">Generate Invoice</button>
     </div>
-    <!-- <input  name="item-count" id="item-count" value="1"> -->
+    <input  name="item-count" id="item-count" value="1">
 
     </form>
 
@@ -148,36 +154,61 @@ Invoice Generating
 
 
 
-    function parseFraction(input) {
+//     function parseFraction(input) {
 
-    const parts = input.split('/');
-    if (parts.length === 2) {
-        const numerator = parseFloat(parts[0]);
-        const denominator = parseFloat(parts[1]);
+//     const parts = input.split('/');
+//     if (parts.length === 2) {
+//         const numerator = parseFloat(parts[0]);
+//         const denominator = parseFloat(parts[1]);
         
-        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+//         if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
     
-            return {
-                numerator: numerator,
-                denominator: denominator
-            };
-        }
+//             return {
+//                 numerator: numerator,
+//                 denominator: denominator
+//             };
+//         }
+//     }
+
+//     return null;
+// }
+
+function parseNumericExpression(input) {
+    const parts = input.split('*').map(part => parseFloat(part.trim()));
+
+    const isValid = parts.every(num => !isNaN(num));
+    
+    if (isValid) {
+        return parts.reduce((accumulator, currentValue) => accumulator * currentValue, 1);
     }
 
     return null;
 }
 
 
+
     function updateFields() {
-        var quantity = parseFloat(row.find('input#quantity').val());
+    var quantity = parseFloat(row.find('input#quantity').val());
     var size = row.find('select#size').val();
     var rate = parseFloat(row.find('select#rate').val());
 
-    var sizeFraction = parseFraction(size);
-    var area = (quantity * sizeFraction.numerator) / sizeFraction.denominator;
-    var formattedArea = area.toFixed(2);
-    row.find('input#area').val(formattedArea);
-    row.find('input#amount').val((area * rate).toFixed(2));
+    // var sizeFraction = parseFraction(size);
+    // var area = (quantity * sizeFraction.numerator) / sizeFraction.denominator;
+    var sizeValue = parseNumericExpression(size);
+     if (sizeValue !== null) {
+        var area = quantity * sizeValue;
+        var formattedArea = area.toFixed(2);
+        row.find('input#area').val(formattedArea);
+        row.find('input#amount').val((area * rate).toFixed(2));
+    } else {
+        // Handle the case where sizeValue is None, e.g., invalid input
+        // You might want to display an error or handle it in an appropriate way
+        console.error('Invalid size input:', size);
+    }
+    // var area = quantity * parseNumericExpression(size);
+    // var formattedArea = area.toFixed(2);
+    // row.find('input#area').val(formattedArea);
+    // row.find('input#amount').val((area * rate).toFixed(2));
     }
 
 
@@ -198,6 +229,8 @@ $('#items-container').on('click', '.delete-row', function () {
     var row = $(this).closest('.item-row');
     deleteRow(row);
 });
+
+
 //    duplicate row function---------------------------------------------------------------------------------
 
 
@@ -244,39 +277,61 @@ function addItemRow() {
     });
 
 
-    function parseFraction(input) {
-        if (input) {
-            const parts = input.split('/');
-            if (parts.length === 2) {
-                const numerator = parseFloat(parts[0]);
-                const denominator = parseFloat(parts[1]);
+    // function parseFraction(input) {
+    //     if (input) {
+    //         const parts = input.split('/');
+    //         if (parts.length === 2) {
+    //             const numerator = parseFloat(parts[0]);
+    //             const denominator = parseFloat(parts[1]);
 
-                if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
-                    return {
-                        numerator: numerator,
-                        denominator: denominator
-                    };
-                }
-            }
-        }
+    //             if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+    //                 return {
+    //                     numerator: numerator,
+    //                     denominator: denominator
+    //                 };
+    //             }
+    //         }
+    //     }
 
-        return {
-            numerator: 0,
-            denominator: 1
-        };
+    //     return {
+    //         numerator: 0,
+    //         denominator: 1
+    //     };
+    // }
+
+    function parseNumericExpression(input) {
+    const parts = input.split('*').map(part => parseFloat(part.trim()));
+
+    const isValid = parts.every(num => !isNaN(num));
+    
+    if (isValid) {
+        return parts.reduce((accumulator, currentValue) => accumulator * currentValue, 1);
     }
 
+    return null;
+}
 
     function updateFields(row) {
         var quantity = parseFloat(row.find('input#quantity').val());
         var size = row.find('select#size').val();
         var rate = parseFloat(row.find('select#rate').val());
-
-        var sizeFraction = parseFraction(size);
-        var area = (quantity * sizeFraction.numerator) / sizeFraction.denominator;
+        var sizeValue = parseNumericExpression(size);
+     if (sizeValue !== null) {
+        var area = quantity * sizeValue;
         var formattedArea = area.toFixed(2);
         row.find('input#area').val(formattedArea);
         row.find('input#amount').val((area * rate).toFixed(2));
+    } else {
+        // Handle the case where sizeValue is None, e.g., invalid input
+        // You might want to display an error or handle it in an appropriate way
+        console.error('Invalid size input:', size);
+    }
+        // var sizeFraction = parseFraction(size);
+        // var area = (quantity * sizeFraction.numerator) / sizeFraction.denominator;
+        // var area = quantity * parseNumericExpression(size);
+        // var formattedArea = area.toFixed(2);
+        // row.find('input#area').val(formattedArea);
+        // row.find('input#amount').val((area * rate).toFixed(2));
     }
 
 
@@ -310,6 +365,22 @@ function addItemRow() {
 
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 $('#your-submit-button').on('click', function(event) {
     event.preventDefault();
