@@ -77,7 +77,7 @@ Invoice Generating
         <input type="text" id="amount" name="amount-1" class="form-control">
     </td>
     <td>
-        <button class="btn btn-danger btn-sm delete-row " style="margin-top: 1.3rem;">Delete</button>
+        <button   class="btn btn-danger btn-sm delete-row " style="margin-top: 1.3rem;">Delete</button>
     </td>
  
 </tr>
@@ -86,6 +86,7 @@ Invoice Generating
     </table>
     <div class="mt-5 " style="text-align: right;">
         <button class="bg-success p-2 bg-variant">Generate Invoice</button>
+        <button id="generate-invoice" >pdf</button>
     </div>
     <input  name="item-count" id="item-count" value="1">
 
@@ -94,6 +95,8 @@ Invoice Generating
   
 </div>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
 
 <script>
 
@@ -192,8 +195,7 @@ function parseNumericExpression(input) {
     var size = row.find('select#size').val();
     var rate = parseFloat(row.find('select#rate').val());
 
-    // var sizeFraction = parseFraction(size);
-    // var area = (quantity * sizeFraction.numerator) / sizeFraction.denominator;
+
     var sizeValue = parseNumericExpression(size);
      if (sizeValue !== null) {
         var area = quantity * sizeValue;
@@ -201,8 +203,7 @@ function parseNumericExpression(input) {
         row.find('input#area').val(formattedArea);
         row.find('input#amount').val((area * rate).toFixed(2));
     } else {
-        // Handle the case where sizeValue is None, e.g., invalid input
-        // You might want to display an error or handle it in an appropriate way
+    
         console.error('Invalid size input:', size);
     }
     // var area = quantity * parseNumericExpression(size);
@@ -221,10 +222,10 @@ function parseNumericExpression(input) {
 
 function deleteRow(row) {
     row.remove();
-    updateFields(); // Update fields after deleting
+    updateFields(); 
 }
 
-// Attach a click event listener to the delete button
+
 $('#items-container').on('click', '.delete-row', function () {
     var row = $(this).closest('.item-row');
     deleteRow(row);
@@ -400,7 +401,7 @@ $('#your-submit-button').on('click', function(event) {
         formData.push(itemData);
     });
 
-    // Send formData in a POST request to your view
+  
     $.ajax({
         url: '/your_view_url/',
         method: 'POST',
@@ -420,6 +421,101 @@ $('#your-submit-button').on('click', function(event) {
 });
 
 
+
+//--------------------------------------------------------------------------------------------------------------------- pdf generate
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('#generate-invoice').addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+            generatePDF();
+        });
+
+        function generatePDF() {
+        
+            const doc = new jsPDF();
+
+       
+            const customerName = document.querySelector('#customer').value;
+            const invoiceNumber = document.querySelector('#invoice-number').value;
+            const invoiceDate = document.querySelector('#invoice-date').value;
+
+         
+            doc.setFontStyle('bold');
+            doc.setFontSize(16);
+
+           
+            doc.text('Invoice', 20, 10);
+
+            
+            doc.setFontSize(12);
+
+    
+            doc.setFontStyle('bold');
+
+      
+            drawTableLines(doc, 20, 20, 160, 50);
+            doc.text('Invoice To:', 25, 25);
+            doc.text('Invoice Number:', 25, 35);
+            doc.text('Invoice Date:', 25, 45);
+
+            doc.setFontStyle('normal');
+            doc.text(customerName, 85, 25);
+            doc.text(invoiceNumber, 85, 35);
+            doc.text(invoiceDate, 85, 45);
+
+            // Create a table for item descriptions
+            drawTableLines(doc, 20, 55, 180, 240);
+            doc.setFontStyle('bold');
+            doc.text('Item Description', 25, 60);
+            doc.text('Quantity', 105, 60);
+            doc.text('Rate', 145, 60);
+            doc.text('Amount', 185, 60);
+
+            doc.setFontStyle('normal');
+            var yPos = 70; 
+            var totalAmount = 0; 
+
+            var items = document.querySelectorAll('.item-row');
+            items.forEach(function (item, index) {
+                var itemName = item.querySelector('#item').value;
+                var thickness = item.querySelector('#thickness').value;
+                var size = item.querySelector('#size').value;
+                var quantity = item.querySelector('#quantity').value;
+                var rate = item.querySelector('#rate').value;
+                var amount = item.querySelector('#amount').value;
+
+   
+                var itemDescription = `${itemName} (${thickness}, ${size})`;
+
+                doc.text(itemDescription, 25, yPos);
+                doc.text(quantity, 105, yPos);
+                doc.text(rate, 145, yPos);
+                doc.text(amount, 185, yPos);
+
+                totalAmount += parseFloat(amount); 
+                yPos += 15; 
+            });
+
+       
+            doc.setFontStyle('bold');
+            drawTableLines(doc, 140, yPos + 5, 180, yPos + 20);
+            doc.text('Total Amount:', 145, yPos + 15);
+            doc.text(totalAmount.toFixed(2), 185, yPos + 15);
+
+        
+            const fileName = `${customerName}_Invoice_${invoiceNumber}.pdf`;
+            doc.save(fileName);
+        }
+
+        function drawTableLines(doc, startX, startY, endX, endY) {
+            doc.rect(startX, startY, endX - startX, endY - startY);
+        }
+    });
 </script>
 
 
