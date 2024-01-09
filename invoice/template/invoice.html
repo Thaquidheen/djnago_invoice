@@ -85,8 +85,8 @@ Invoice Generating
     </tbody>
     </table>
     <div class="mt-5 " style="text-align: right;">
-        <button class="bg-success p-2 bg-variant">Generate Invoice</button>
-        <button id="generate-invoice" >pdf</button>
+        <button id="generate-invoice" class="bg-success p-2 bg-variant">Generate Invoice</button>
+        <!-- <button id="generate-invoice" >pdf</button> -->
     </div>
     <input  name="item-count" id="item-count" value="1">
 
@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var items = document.querySelectorAll('.item-row');
             items.forEach(function (item, index) {
-                var itemName = item.querySelector('#item').value;
+                var itemName = item.querySelector('#item option:checked').text;
                 var thickness = item.querySelector('#thickness').value;
                 var size = item.querySelector('#size').value;
                 var quantity = item.querySelector('#quantity').value;
