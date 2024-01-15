@@ -64,14 +64,15 @@ def report(request):
     customer_items = []
 
     for customer in customers:
-        invoice_items_query = InvoiceItem.objects.filter(customer=customer)
-
+        invoice_items_query = InvoiceItem.objects.all().filter(customer=customer)
+        print(invoice_items_query)
         if customer_name:
             invoice_items_query = invoice_items_query.filter(customer__customer_name=customer_name)
         if start_date and end_date:
             invoice_items_query = invoice_items_query.filter(invoice_date__range=(start_date, end_date))
         
-        items = invoice_items_query.values('item', 'size', 'thickness', 'rate', 'quantity', 'amount')
+        items = invoice_items_query.all()
+        
         total_amount = items.aggregate(Sum('amount'))['amount__sum'] or 0
 
         customer_items.append({

@@ -66,10 +66,17 @@ Home Page
   /* Add more styles as needed */
 </style>
 
+<style>
+  .scrollable-table {
+    height: 200px;  /* Adjust the height as needed */
+    overflow-y: auto;
+  }
+</style>
 
     <form action="{% url 'report' %}" method="GET">
-        <label for="customer-options">Select Customer:</label>
-        <select name="customer_name" id="customer-options">
+
+        <select name="customer_name" id="customer-options" class="mt-5">
+          <option value="" selected disabled>Select Customer</option>
             {% for customer in customers %}
                 <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
             {% endfor %}
@@ -83,8 +90,8 @@ Home Page
     
         <button type="submit"  id="show-order-details">Show Order Details</button>
     </form>
-    <div id="table-container">
-    <table>
+    <div id="table-container " class="scrollable-table container">
+    <table >
         <thead>
           <tr>
          
@@ -96,7 +103,7 @@ Home Page
             <th>Total Amount</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody >
           {% for customer_data in customer_items %}
              {% for item in customer_data.items %}
               <tr>
