@@ -7,8 +7,8 @@ Home Page
 
 {% block content %}
 {% load static %}
-
-
+<!-- {% load custom_filters %}
+{% load humanize %} -->
 
 
 <style>
@@ -38,18 +38,35 @@ Home Page
         border-radius: 5px;
     }
 </style>
+<style>
+  table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+  }
+
+  th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+  }
+
+  th {
+      background-color: #f2f2f2;
+  }
+
+  tr:hover {
+      background-color: #f5f5f5;
+  }
+
+  td:first-child {
+      font-weight: bold;
+  }
+
+  /* Add more styles as needed */
+</style>
 
 
-
-<!-- <label for="customer-options">Select Customer:</label>
-    <select id="customer-options">
-        {% for customer in customers %}
-        <option value="{{ customer.customer_name }}">{{ customer.customer_name }}</option>
-        {% endfor %}
-    </select>
-
-    <label for="date-range">Select Date Range:</label>
-    <input type="text" name="datetimes" /> -->
     <form action="{% url 'report' %}" method="GET">
         <label for="customer-options">Select Customer:</label>
         <select name="customer_name" id="customer-options">
@@ -59,43 +76,97 @@ Home Page
         </select>
     
         <label for="start-date">Start Date:</label>
-        <input type="date" name="start_date" id="start-date">
+        <input type="date" name="start_date"  id="start-date">
     
         <label for="end-date">End Date:</label>
         <input type="date" name="end_date" id="end-date">
     
-        <button type="submit">Show Order Details</button>
+        <button type="submit"  id="show-order-details">Show Order Details</button>
     </form>
-    
+    <div id="table-container" style="display:none;">
     <table>
         <thead>
-            <tr>
-                <th>Item</th>
-                <th>Size</th>
-                <th>Thickness</th>
-                <th>Rate</th>
-                <th>Quantity</th>
-                <th>Total Amount</th>
-            </tr>
+          <tr>
+         
+            <th>Item</th>
+            <th>Size</th>
+            <th>Thickness</th>
+            <th>Rate</th>
+            <th>Quantity</th>
+            <th>Total Amount</th>
+        </tr>
         </thead>
         <tbody>
-            {% for item in customer_items %}
-                <tr>
-                    <td>{{ item.item }}</td>
-                    <td>{{ item.size }}</td>
-                    <td>{{ item.thickness }}</td>
-                    <td>{{ item.rate }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.amount }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="6">No orders found for the selected customer and date range.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
+          {% for customer_data in customer_items %}
+             {% for item in customer_data.items %}
+              <tr>
+                <td>{{item.item }}</td>
+                  <td>{{ item.size }}</td>
+                  <td>{{ item.thickness }}</td>
+                  <td>{{ item.rate }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.amount }}</td>
+              </tr>
+              {% endfor %}
+          {% empty %}
+              <tr>
+                  <td colspan="6">No orders found for the selected customer and date range.</td>
+              </tr>
+          {% endfor %}
+      </tbody>
     </table>
-    <script>
+  </div>
+    <div>
+        <canvas id="myChart"></canvas>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+
+      <script>
+        const customerData = [
+            {% for item in customer_items %}
+                {
+                    'customer_name': '{{ item.customer_name }}',
+                    'total_amount': {{ item.total_amount }},
+                },
+            {% endfor %}
+        ];
+    
+        const customerNames = customerData.map(item => item.customer_name);
+        const amounts = customerData.map(item => item.total_amount);
+    
+        const ctx = document.getElementById('myChart');
+    
+        const data = {
+            labels: customerNames,
+            datasets: [{
+                label: 'Total Amount',
+                data: amounts,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+    
+      
+        console.log(data);
+    
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+   
+ 
+ <script>
         $(function() {
           $('input[name="datetimes"]').daterangepicker({
             timePicker: true,
@@ -107,6 +178,7 @@ Home Page
           });
         });
         </script>
+        
         <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
